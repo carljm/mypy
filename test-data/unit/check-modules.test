@@ -1460,3 +1460,17 @@ reveal_type(m2)  # E: Revealed type is 'builtins.str'
 reveal_type(n2)  # E: Revealed type is 'builtins.str'
 
 [builtins fixtures/module.pyi]
+
+[case testClassAttrModuleAssignment]
+import m
+class C:
+    m2 = m
+    def foo(self) -> None:
+        x = self.m2.a
+        reveal_type(x)  # E: Revealed type is 'builtins.str'
+reveal_type(C.m2.a)  # E: Revealed type is 'builtins.str'
+
+[file m.py]
+a = 'foo'
+
+[builtins fixtures/module.pyi]
